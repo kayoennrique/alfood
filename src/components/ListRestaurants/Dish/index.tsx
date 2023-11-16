@@ -10,20 +10,20 @@ const Dish = ({ dish }: DishProps) => {
     <div className={styles.Container}>
       <div>
         <div className={styles.TorsionEffect}>
-          <img src={dish.image} alt={dish.description}/>
+          <img src={dish.imagem} alt={dish.descricao}/>
         </div>
       </div>
     </div>
     <div className={styles.Content}>
-      <h3>{dish.name}</h3>
+      <h3>{dish.nome}</h3>
       <div className={styles.Tag}>
         {dish.tag}
       </div>
       <div>
-        {dish.description}
+        {dish.descricao}
       </div>
     </div>
   </div>)
 }
 
-export default Dish
+export default Dish;

@@ -2,6 +2,6 @@ import IDish from "./IDish";
 
 export default interface IRestaurant {
   id: number
-  name: string
+  nome: string
   dishes: IDish[]
 }
