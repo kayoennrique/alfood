@@ -72,7 +72,7 @@ const ListRestaurants = () => {
         </select>
       </div>
       <div>
-        <button className='buttoon' type='submit'>Buscar</button>
+        <button className='search' type='submit'>Buscar</button>
       </div>
     </form>
     {restaurants?.map(item => <Restaurant restaurant={item} key={item.id} />)}

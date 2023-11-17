@@ -37,11 +37,6 @@
   opacity: 0.5;
 }
 
-.ListRestaurants button[disabled] {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
 .ListRestaurants form label {
   margin-right: 4px;
 }
@@ -53,5 +48,41 @@
   color: white;
   border-radius: 5px;
   cursor: pointer;
-  margin: 10px 5px; 
+  margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+  .ListRestaurants button {
+    margin: 5px 0;
+    display: block; 
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+
+  .ListRestaurants {
+    width: 750px;
+  }
+
+  .ListRestaurants h1 {
+    font-size: 2.5rem;
+  }
+
+  .ListRestaurants form {
+    display: flex;
+  }
+
+  .ListRestaurants form div {
+    margin-bottom: 10px;
+  }
+
+  .ListRestaurants form input,
+  .ListRestaurants form select {
+    width: 200px;
+  }
+
+  .ListRestaurants form button {
+    margin: 20px 0;
+    display: block;
+  }
 }
