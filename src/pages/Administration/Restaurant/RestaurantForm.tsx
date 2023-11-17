@@ -1,61 +1,68 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import IRestaurant from "../../../interfaces/IRestaurant";
-import http from "../../../http";
+import { Box, Typography, TextField, Button } from '@mui/material';
+import { Method } from 'axios';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import http from '../../../http';
+import IRestaurant from '../../../interfaces/IRestaurant';
 
-const RestaurantForm = () => {
-    const params = useParams();
+const FormRestaurant = () => {
+  const params = useParams();
+  const [name, setName] = useState('')
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (params.id) {
-            http.get<IRestaurant>(`restaurantes/${params.id}/`)
-                .then(response => setRestaurantName(response.data.nome))
-        }
-    }, [params]);
-
-    const [restaurantName, setRestaurantName] = useState('');
-    const whenSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        if (params.id) {
-            http.put(`restaurantes/${params.id}/`, {
-                nome: restaurantName
-            })
-                .then(() => {
-                    alert("Restaurante atualizado com sucesso!")
-                })
-        } else {
-            http.post('restaurantes/', {
-                nome: restaurantName
-            })
-                .then(() => {
-                    alert("Restaurante cadastrado com sucesso!")
-                })
-        }
-
+  useEffect(() => {
+    if (params.id) {
+      http.get<IRestaurant>(`/v2/restaurantes/${params.id}/`)
+        .then(response => setName(response.data.nome))
     }
+  }, [params])
 
-    return (
-        <Box sx={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
-            <Typography
-                component="h1"
-                variant="h6"
-            >Formulário de Restaurantes
-            </Typography>
-            <Box component="form" onSubmit={whenSubmitForm}>
-                <TextField
-                    value={restaurantName}
-                    onChange={event => setRestaurantName(event.target.value)}
-                    label="Nome do Restaurante"
-                    variant="standard"
-                    fullWidth
-                    required
-                />
-                <Button sx={{ marginTop: 1 }} type="submit" fullWidth variant="outlined">Salvar</Button>
-            </Box>
-        </Box >
-    )
+  const whenSubmittingForm = (event: SyntheticEvent) => {
+    event.preventDefault()
+    let url = '/v2/restaurantes/'
+    let method: Method = 'POST'
+    if (params.id) {
+      method = 'PUT'
+      url += `${params.id}/`
+    }
+    http.request({
+      url,
+      method,
+      data: {
+        name
+      }
+    }).then(() => {
+      navigate('/dashboard/restaurantes')
+    })    
+  }
+
+  return (
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Typography component="h1" variant="h6">
+          Formulário de restaurante
+        </Typography>
+        <Box component="form" sx={{ mt: 1 }} onSubmit={whenSubmittingForm}>
+          <TextField
+            required
+            value={name}
+            onChange={event => setName(event.target.value)}
+            margin='dense'
+            id="nome"
+            label="Nome"
+            type="text"
+            fullWidth />
+          <Button type='submit' fullWidth variant="contained">Salvar</Button>
+        </Box>
+      </Box>
+    </>
+  );
 }
 
-export default RestaurantForm;
+export default FormRestaurant;
