@@ -3,7 +3,7 @@ import styles from './Footer.module.scss';
 const NavBar = () => {
   return (<footer className={styles.Footer}>
     <div>
-      <p>Copyright &copy; {new Date().getFullYear()} Alfood</p>
+      <p>Copyright &copy; {new Date().getFullYear()} Kayo Ennrique</p>
     </div>
     <div>
       <ul className="social-icons">

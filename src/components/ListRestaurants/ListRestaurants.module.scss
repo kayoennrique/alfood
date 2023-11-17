@@ -2,3 +2,56 @@
   margin-top: 1.5rem;
   padding: 2rem;
 }
+
+.ListRestaurants form {
+  display: flex;
+  flex-direction: column;
+}
+
+.ListRestaurants form div {
+  margin-bottom: 12px;
+}
+
+.ListRestaurants form input{
+  padding: 5px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.ListRestaurants form select {
+  padding: 5px 18px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.ListRestaurants form button {
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ListRestaurants button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ListRestaurants button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ListRestaurants form label {
+  margin-right: 4px;
+}
+
+.ListRestaurants button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 5px; 
+}
