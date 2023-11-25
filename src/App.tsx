@@ -19,6 +19,7 @@ function App() {
         <Route path="restaurantes/:id" element={<RestaurantForm />} />
         <Route path="pratos" element={<AdmissionDish />} />
         <Route path="pratos/novo" element={<FormDish />} />
+        <Route path="pratos/:id" element={<FormDish />} />
         
       </Route>
     </Routes>

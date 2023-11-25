@@ -3,9 +3,12 @@ import { useEffect, useState } from "react"
 import http from "../../../http"
 import IRestaurant from "../../../interfaces/IRestaurant";
 import ITag from "../../../interfaces/ITag"
+import { useParams } from 'react-router-dom';
+import IDish from "../../../interfaces/IDish";
 
 const FormDish = () => {
 
+    const { id } = useParams();
     const [dishName, setDishName] = useState('');
     const [description, setDescription] = useState('');
 
@@ -24,47 +27,61 @@ const FormDish = () => {
             .then(response => setRestaurants(response.data))
     }, []);
 
+    useEffect(() => {
+        if (id) {
+            http.get<IDish>(`/pratos/${id}/`)
+                .then(response => setDishName(response.data.nome))
+            http.get<IDish>(`/pratos/${id}/`)
+                .then(response => setDescription(response.data.descricao))
+            http.get<IDish>(`/pratos/${id}/`)
+                .then(response => setTag(response.data.tag))
+        }
+    }, []);
+
     const selectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files?.length) {
-            setImage(event.target.files[0])
+            setImage(event.target.files[0]);
         } else {
-            setImage(null)
+            setImage(null);
         }
-    }   
+    }
 
     const whenSubmittingForm = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+        event.preventDefault();
 
         const formData = new FormData();
 
-        formData.append('nome', dishName)
-        formData.append('descricao', description)
+        formData.append('nome', dishName);
+        formData.append('descricao', description);
 
-        formData.append('tag', tag)
+        formData.append('tag', tag);
 
-        formData.append('restaurante', restaurant)
+        formData.append('restaurante', restaurant);
 
         if (image) {
-            formData.append('imagem', image)
+            formData.append('imagem', image);
         }
 
-        http.request({
-            url: 'pratos/',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            data: formData
-        })
-            .then(() => {
-                setDishName('')
-                setDescription('')
-                setTag('')
-                setRestaurant('')
-                alert('Prato cadastrado com sucesso!')
+        if (id) {
+            http.put<IDish>(`/pratos/${id}/`, {
+                "nome": dishName,
+                "descricao": description,
+                "restaurante": restaurant
             })
-            .catch(erro => console.log(erro))
-
+                .then(() => {
+                    alert("Prato atualizado com sucesso!")
+                });
+        } else {
+            http.post<IDish>(`/pratos/`, {
+                "nome": dishName,
+                "descricao": description,
+                "tag": tag,
+                "restaurante": restaurant
+            })
+                .then(() => {
+                    alert("Prato cadastrado com sucesso!")
+                });
+        }
     }
 
     return (
@@ -108,7 +125,7 @@ const FormDish = () => {
                     </Select>
                 </FormControl>
 
-                <input type="file" onChange={selectFile}/>
+                <input type="file" onChange={selectFile} />
 
                 <Button sx={{ marginTop: 1 }} type="submit" fullWidth variant="outlined">Salvar</Button>
             </Box>

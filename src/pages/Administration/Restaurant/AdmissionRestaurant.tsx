@@ -15,11 +15,11 @@ import http from '../../../http';
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>()
   useEffect(() => {
-    http.get<IRestaurant[]>('/v2/restaurantes/')
+    http.get<IRestaurant[]>('/restaurantes/')
       .then(response => setRestaurants(response.data))
   }, [])
   const deleted = (restaurant:IRestaurant) => {
-    http.delete(`/v2/restaurantes/${restaurant.id}/`)
+    http.delete(`/restaurantes/${restaurant.id}/`)
       .then(() => {
         if (restaurants) {         
           setRestaurants([
@@ -40,7 +40,7 @@ const Restaurants = () => {
           <Link
             variant="button"
             component={RouterLink}
-            to="/dashboard/restaurantes/novo"
+            to="/admin/restaurantes/novo"
           >
             Novo
           </Link>
@@ -64,7 +64,7 @@ const Restaurants = () => {
                   <Link
                     variant="button"
                     component={RouterLink}
-                    to={`/dashboard/restaurantes/${restaurant.id}`}
+                    to={`/admin/restaurantes/${restaurant.id}`}
                   >
                     <IconButton aria-label="editar">
                       <Edit />

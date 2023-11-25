@@ -1,40 +1,38 @@
 import { Box, Typography, TextField, Button } from '@mui/material';
-import { Method } from 'axios';
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import http from '../../../http';
 import IRestaurant from '../../../interfaces/IRestaurant';
 
 const FormRestaurant = () => {
-  const params = useParams();
-  const [name, setName] = useState('')
-  const navigate = useNavigate();
+  const { id } = useParams();
+  const [name, setName] = useState('');
 
   useEffect(() => {
-    if (params.id) {
-      http.get<IRestaurant>(`/v2/restaurantes/${params.id}/`)
+    if (id) {
+      http.get<IRestaurant>(`/restaurantes/${id}/`)
         .then(response => setName(response.data.nome))
     }
-  }, [params])
+  },[]);
 
   const whenSubmittingForm = (event: SyntheticEvent) => {
-    event.preventDefault()
-    let url = '/v2/restaurantes/'
-    let method: Method = 'POST'
-    if (params.id) {
-      method = 'PUT'
-      url += `${params.id}/`
+    event.preventDefault();
+    if (id) {
+      http.put<IRestaurant>(`/restaurantes/${id}/`, {
+        "nome": name
+      })
+        .then(() => {
+          alert("Restaurante atualizado com sucesso!")
+        });
+    } else {
+      http.post<IRestaurant>(`/restaurantes/`, {
+        "nome": name
+      })
+        .then(() => {
+          alert("Restaurante cadastrado com sucesso!")
+        });
     }
-    http.request({
-      url,
-      method,
-      data: {
-        name
-      }
-    }).then(() => {
-      navigate('/dashboard/restaurantes')
-    })    
-  }
+  };
 
   return (
     <>
@@ -52,7 +50,7 @@ const FormRestaurant = () => {
           <TextField
             required
             value={name}
-            onChange={event => setName(event.target.value)}
+            onChange={(e) => setName(e.target.value)}
             margin='dense'
             id="nome"
             label="Nome"
