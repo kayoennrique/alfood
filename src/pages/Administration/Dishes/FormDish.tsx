@@ -30,11 +30,11 @@ const FormDish = () => {
     useEffect(() => {
         if (id) {
             http.get<IDish>(`/pratos/${id}/`)
-                .then(response => setDishName(response.data.nome))
-            http.get<IDish>(`/pratos/${id}/`)
-                .then(response => setDescription(response.data.descricao))
-            http.get<IDish>(`/pratos/${id}/`)
-                .then(response => setTag(response.data.tag))
+                .then(response => {
+                    setTag(response.data.tag)
+                    setDishName(response.data.nome)
+                    setDescription(response.data.descricao)
+                });
         }
     }, []);
 
