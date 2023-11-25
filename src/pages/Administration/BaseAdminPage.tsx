@@ -53,7 +53,7 @@ const BaseAdminPage = () => {
                         </Menu>
                     </div>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Adminstração
+                        Administração
                     </Typography>
                 </Toolbar>
             </AppBar>
